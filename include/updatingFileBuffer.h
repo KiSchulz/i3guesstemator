@@ -1,3 +1,9 @@
+/*
+ Copyright (c) 09.12.22 15:41 Kilian Schulz
+
+ See file LICENSE for information
+ */
+
 #ifndef I3GUESSTEMATOR_UPDATINGFILEBUFFER_H
 #define I3GUESSTEMATOR_UPDATINGFILEBUFFER_H
 

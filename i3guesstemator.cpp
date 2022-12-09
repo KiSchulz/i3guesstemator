@@ -1,3 +1,9 @@
+/*
+ Copyright (c) 09.12.22 15:41 Kilian Schulz
+
+ See file LICENSE for information
+ */
+
 #include "i3guesstemator.h"
 #include "i3barWriter.h"
 #include "timeGenerator.h"

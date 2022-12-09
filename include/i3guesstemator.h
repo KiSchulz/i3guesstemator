@@ -1,3 +1,9 @@
+/*
+ Copyright (c) 09.12.22 15:45 Kilian Schulz
+
+ See file LICENSE for information
+ */
+
 #ifndef I3GUESSTEMATOR_I3GUESSTEMATOR_H
 #define I3GUESSTEMATOR_I3GUESSTEMATOR_H
 
