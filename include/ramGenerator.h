@@ -1,7 +1,3 @@
-//
-// Created by kis on 29.11.22.
-//
-
 #ifndef I3GUESSTEMATOR_RAMGENERATOR_H
 #define I3GUESSTEMATOR_RAMGENERATOR_H
 

@@ -1,7 +1,3 @@
-//
-// Created by kis on 26.11.22.
-//
-
 #ifndef I3GUESSTEMATOR_ELEMENT_H
 #define I3GUESSTEMATOR_ELEMENT_H
 

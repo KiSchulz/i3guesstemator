@@ -1,7 +1,3 @@
-//
-// Created by kis on 08.12.22.
-//
-
 #ifndef I3GUESSTEMATOR_HELPERS_H
 #define I3GUESSTEMATOR_HELPERS_H
 
