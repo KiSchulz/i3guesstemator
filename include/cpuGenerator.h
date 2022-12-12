@@ -35,7 +35,8 @@ public:
         uint64_t total = std::accumulate(delta.begin(), delta.end(), 0ul);
 
         std::stringstream ss;
-        ss << (int) std::lround((1.0 - ((float) delta[3] / (float) total)) * 100.0) << "%";
+        ss << std::setfill('0') << std::setw(2) << (int) std::lround((1.0 - ((float) delta[3] / (float) total)) * 100.0)
+           << "%";
 
         cpu = nCpu;
 

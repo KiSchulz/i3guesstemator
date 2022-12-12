@@ -28,7 +28,13 @@ public:
         const Battery battery{uevent.getContent()};
 
         std::stringstream ss;
-        ss.precision(4);
+        ss.precision(3);
+
+        //power draw in watts
+        ss << std::setfill('0') << std::setw(2) << (double) battery.status * battery.getPowerDraw() << "W ";
+
+        //battery capacity in percent
+        ss << battery.capacity << "% ";
 
         //estimated time of death
         //calculating the time
@@ -38,19 +44,13 @@ public:
         tm.tm_sec += (int) timeAvg.getAverage();
         std::mktime(&tm);
         ss << "ETD="
-           << std::put_time(&tm, "%H:%M:%S") << " ";
+           << std::put_time(&tm, "%H:%M") << " ";
 
         //time left
         std::chrono::hh_mm_ss hhMmSs{std::chrono::seconds{timeAvg.getAverage()}};
         ss << "T="
            << std::setfill('0') << std::setw(2) << hhMmSs.hours().count() << ":"
-           << std::setfill('0') << std::setw(2) << hhMmSs.minutes().count() << "h ";
-
-        //power draw in watts
-        ss << std::setfill('0') << std::setw(4) << (double) battery.status * battery.getPowerDraw() << "W ";
-
-        //battery capacity in percent
-        ss << battery.capacity << "%";
+           << std::setfill('0') << std::setw(2) << hhMmSs.minutes().count() << "h";
 
         return Element{ss.str()};
     }
