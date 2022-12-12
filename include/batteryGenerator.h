@@ -16,9 +16,11 @@
 #include "helpers.h"
 #include "elementGenerator.h"
 #include "updatingFileBuffer.h"
+#include "updatingAverage.h"
 
 class BatteryGenerator : public ElementGenerator {
     UpdatingFileBuffer uevent;
+    UpdatingAverage<uint64_t, 60 * 5> timeAvg;
 public:
     BatteryGenerator() : uevent("/sys/class/power_supply/BAT0/uevent") {}
 
@@ -30,15 +32,16 @@ public:
 
         //estimated time of death
         //calculating the time
+        timeAvg.push(battery.getTimeLeft());
         time_t t = std::time(nullptr);
         tm tm = *std::localtime(&t);
-        tm.tm_sec += (int) battery.getTimeLeft();
+        tm.tm_sec += (int) timeAvg.getAverage();
         std::mktime(&tm);
         ss << "ETD="
            << std::put_time(&tm, "%H:%M:%S") << " ";
 
         //time left
-        std::chrono::hh_mm_ss hhMmSs{std::chrono::seconds{battery.getTimeLeft()}};
+        std::chrono::hh_mm_ss hhMmSs{std::chrono::seconds{timeAvg.getAverage()}};
         ss << "T="
            << std::setfill('0') << std::setw(2) << hhMmSs.hours().count() << ":"
            << std::setfill('0') << std::setw(2) << hhMmSs.minutes().count() << "h ";

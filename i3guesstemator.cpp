@@ -18,12 +18,12 @@ int main() {
 
     I3barWriter i3BarWriter;
 
-    //i3BarWriter.pushBack(std::make_shared<BatteryGenerator>());
+    i3BarWriter.pushBack(std::make_shared<BatteryGenerator>());
     i3BarWriter.pushBack(std::make_shared<CpuGenerator>());
     i3BarWriter.pushBack(std::make_shared<RamGenerator>());
     i3BarWriter.pushBack(std::make_shared<TimeGenerator>());
 
-    I3Guesstemator i3Guesstemator(std::make_shared<I3barWriter>(i3BarWriter), 5);
+    I3Guesstemator i3Guesstemator(std::make_shared<I3barWriter>(i3BarWriter), 1);
     i3Guesstemator.run();
 
     return 0;

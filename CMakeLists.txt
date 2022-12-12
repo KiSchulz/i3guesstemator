@@ -12,4 +12,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(include/)
 
-add_executable(i3guesstemator i3guesstemator.cpp)
+add_executable(i3guesstemator i3guesstemator.cpp include/updatingAverage.h)
