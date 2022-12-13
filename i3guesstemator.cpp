@@ -18,7 +18,7 @@ int main() {
 
     I3barWriter i3BarWriter;
 
-    i3BarWriter.pushBack(std::make_shared<BatteryGenerator>());
+    i3BarWriter.pushBack(std::make_shared<BatteryGenerator<>>());
     i3BarWriter.pushBack(std::make_shared<CpuGenerator>());
     i3BarWriter.pushBack(std::make_shared<RamGenerator>());
     i3BarWriter.pushBack(std::make_shared<TimeGenerator>());
