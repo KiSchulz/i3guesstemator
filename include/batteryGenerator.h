@@ -37,6 +37,7 @@ public:
 
         std::stringstream ss;
         ss.precision(3);
+        ss << "\uf242    ";
 
         //battery capacity in percent
         ss << battery.capacity << "% ";

@@ -10,6 +10,7 @@
 #include <string>
 #include <fstream>
 #include <streambuf>
+#include <filesystem>
 
 class UpdatingFileBuffer {
     const std::string path;
@@ -17,10 +18,10 @@ class UpdatingFileBuffer {
     std::string content;
 
 public:
-    explicit UpdatingFileBuffer(std::string_view path) : path(path) {
+    explicit UpdatingFileBuffer(const std::filesystem::path& path) : path(path) {
     }
 
-    std::string_view getContent() {
+    [[nodiscard]] std::string_view getContent() {
         updateContent();
         return std::string_view{content};
     }

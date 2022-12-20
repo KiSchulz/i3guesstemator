@@ -10,6 +10,7 @@
 #include "batteryGenerator.h"
 #include "ramGenerator.h"
 #include "cpuGenerator.h"
+#include "brightnessGenerator.h"
 
 #include <memory>
 
@@ -20,8 +21,9 @@ int main() {
     I3barWriter i3BarWriter;
 
     i3BarWriter.pushBack(std::make_shared<BatteryGenerator<>>());
-    i3BarWriter.pushBack(std::make_shared<CpuGenerator>());
     i3BarWriter.pushBack(std::make_shared<RamGenerator>());
+    i3BarWriter.pushBack(std::make_shared<CpuGenerator>());
+    i3BarWriter.pushBack(std::make_shared<BrightnessGenerator>());
     i3BarWriter.pushBack(std::make_shared<TimeGenerator>());
 
     I3Guesstemator i3Guesstemator(std::make_shared<I3barWriter>(i3BarWriter), 1);
