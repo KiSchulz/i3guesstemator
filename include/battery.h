@@ -14,7 +14,7 @@
 
 struct Battery {
     enum Status : int64_t {
-        charging = 1, discharging = -1, unknown = 0, full
+        charging = 1, discharging = -1, unknown = 0, full = 2
     };
 
     Status status;
@@ -53,11 +53,21 @@ struct Battery {
 
     //returns the time left in seconds
     [[nodiscard]] uint64_t getTimeLeft() const {
-        if (status == full) {
+        //when unplugging the current becomes 0 and crashes the program
+        if (currentNow == 0) {
             return 0;
         }
 
-        return (uint64_t) ((double) chargeNow / (double) currentNow * 3600);
+        switch (status) {
+            case charging:
+                return (uint64_t) (((double) (chargeFull - chargeNow) / (double) currentNow) * 3600.0);
+            case discharging:
+                return (uint64_t) (((double) chargeNow / (double) currentNow) * 3600.0);
+            case unknown:
+            case full:
+                return 0;
+        }
+        return 0;
     }
 
 private:

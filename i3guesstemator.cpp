@@ -15,6 +15,7 @@
 
 int main() {
     //TODO: add a config file reader
+    //TODO: add a reader for stdin
 
     I3barWriter i3BarWriter;
 

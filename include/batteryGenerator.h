@@ -28,11 +28,11 @@ public:
     BatteryGenerator() : uevent("/sys/class/power_supply/BAT0/uevent") {}
 
     Element getElement() override {
-        const Battery nbattery = Battery{uevent.getContent()};
-        if (nbattery.status != battery.status) {
+        const Battery nBattery = Battery{uevent.getContent()};
+        if (nBattery.status != battery.status) {
             timeAvg = UpdatingAverage<uint64_t, avgBufferSize>{};
         }
-        battery = nbattery;
+        battery = nBattery;
         timeAvg.push(battery.getTimeLeft());
 
         std::stringstream ss;
