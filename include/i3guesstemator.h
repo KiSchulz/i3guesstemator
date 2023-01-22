@@ -13,16 +13,23 @@
 #include <chrono>
 
 #include "writer.h"
+#include "i3barWriter.h"
+#include "configuration.h"
+#include "timeGenerator.h"
 
 class I3Guesstemator {
 public:
-    std::shared_ptr<Writer> writer;
+    std::unique_ptr<Writer> writer;
     int64_t timeToSleep;
     bool work = true;
-public:
-    I3Guesstemator(std::shared_ptr<Writer> writer, int64_t timeToSleep) : writer(std::move(writer)),
-                                                                          timeToSleep(timeToSleep) {
 
+public:
+    I3Guesstemator () : writer(std::make_unique<I3barWriter>()), timeToSleep(1000) {
+        writer->pushBack(std::make_unique<TimeGenerator>());
+    }
+
+    explicit I3Guesstemator(const Configuration &configuration) {
+        //TODO
     }
 
     void run() {

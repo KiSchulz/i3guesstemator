@@ -26,7 +26,7 @@ public:
 
         std::stringstream ss;
         ss.precision(4);
-        ss << "\uf14e  " << Ram::KiBToGiB(ram.memTotal - ram.memFree - ram.buffers - ram.cached)
+        ss << "\uf00a  " << Ram::KiBToGiB(ram.memTotal - ram.memFree - ram.buffers - ram.cached)
            << "/" << Ram::KiBToGiB(ram.memTotal) << "GB";
 
         return Element{ss.str()};

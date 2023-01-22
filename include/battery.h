@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 13.12.22 13:20 Kiian Schulz
+ * Copyright (c) 13.12.22 13:20 Kilian Schulz
  *
  * See file LICENSE for information
  */

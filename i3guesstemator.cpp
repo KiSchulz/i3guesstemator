@@ -5,29 +5,22 @@
  */
 
 #include "i3guesstemator.h"
-#include "i3barWriter.h"
-#include "timeGenerator.h"
-#include "batteryGenerator.h"
-#include "ramGenerator.h"
-#include "cpuGenerator.h"
-#include "brightnessGenerator.h"
 
 #include <memory>
 
-int main() {
-    //TODO: add a config file reader
-    //TODO: add a reader for stdin
+int main(int argc, char *argv[]) {
+    //TODO: add a reader for inputs from the bar
 
-    I3barWriter i3BarWriter;
+    std::unique_ptr<I3Guesstemator> i3Guesstemator;
 
-    i3BarWriter.pushBack(std::make_shared<BatteryGenerator<>>());
-    i3BarWriter.pushBack(std::make_shared<RamGenerator>());
-    i3BarWriter.pushBack(std::make_shared<CpuGenerator>());
-    i3BarWriter.pushBack(std::make_shared<BrightnessGenerator>());
-    i3BarWriter.pushBack(std::make_shared<TimeGenerator>());
+    if (argc == 2) {
+        Configuration configuration{std::filesystem::path{argv[1]}};
+        i3Guesstemator = std::make_unique<I3Guesstemator>(configuration);
+    } else {
+        i3Guesstemator = std::make_unique<I3Guesstemator>();
+    }
 
-    I3Guesstemator i3Guesstemator(std::make_shared<I3barWriter>(i3BarWriter), 1);
-    i3Guesstemator.run();
+    i3Guesstemator->run();
 
     return 0;
 }
