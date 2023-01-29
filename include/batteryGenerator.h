@@ -13,25 +13,37 @@
 #include <chrono>
 #include <ctime>
 
+#include "yaml-cpp/yaml.h"
 #include "helpers.h"
 #include "elementGenerator.h"
 #include "updatingFileBuffer.h"
 #include "updatingAverage.h"
 #include "battery.h"
 
-//TODO make avgBufferSize a runtime variable
-template<std::size_t avgBufferSize = 60 * 5>
 class BatteryGenerator : public ElementGenerator {
     UpdatingFileBuffer uevent;
-    UpdatingAverage<uint64_t, avgBufferSize> timeAvg;
+    UpdatingAverage<uint64_t> timeAvg;
     Battery battery{};
+
+    static UpdatingAverage<uint64_t> initTimeAvg(const YAML::Node &config) {
+        const YAML::Node &batteryNode = config["battery"];
+        if (batteryNode.IsDefined()) {
+            const YAML::Node &numIntervals = batteryNode["numIntervals"];
+            if (numIntervals.IsDefined()) {
+                return UpdatingAverage<uint64_t>{numIntervals.as<uint64_t>()};
+            }
+        }
+        return UpdatingAverage<uint64_t>{5 * 60};
+    }
+
 public:
-    BatteryGenerator() : uevent("/sys/class/power_supply/BAT0/uevent") {}
+    explicit BatteryGenerator(const YAML::Node &config) : uevent("/sys/class/power_supply/BAT0/uevent"),
+                                                          timeAvg(initTimeAvg(config)) {}
 
     Element getElement() override {
         const Battery nBattery = Battery{uevent.getContent()};
         if (nBattery.status != battery.status) {
-            timeAvg = UpdatingAverage<uint64_t, avgBufferSize>{};
+            timeAvg = UpdatingAverage<uint64_t>{timeAvg.getNumEntries()};
         }
         battery = nBattery;
         timeAvg.push(battery.getTimeLeft());
