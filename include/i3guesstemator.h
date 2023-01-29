@@ -22,12 +22,12 @@
 #include "timeGenerator.h"
 
 class I3Guesstemator {
-public:
+    const YAML::Node config;
     int64_t timeToSleep;
     std::unique_ptr<Writer> writer;
     bool work = true;
 
-    void initWriter(const YAML::Node &config) {
+    void initWriter() {
         auto value = config["writer"].as<std::string>();
         if (value == "i3bar") {
             writer = std::make_unique<I3barWriter>();
@@ -38,7 +38,7 @@ public:
 
     void pushGenerator(std::string_view name) const {
         if (name.contains("battery")) {
-            writer->pushBack(std::make_unique<BatteryGenerator<>>());
+            writer->pushBack(std::make_unique<BatteryGenerator>(config));
         } else if (name.contains("brightness")) {
             writer->pushBack(std::make_unique<BrightnessGenerator>());
         } else if (name.contains("cpu")) {
@@ -50,7 +50,7 @@ public:
         }
     }
 
-    void initGenerators(const YAML::Node &config) const {
+    void initGenerators() const {
         auto arr = config["generatorList"].as<std::vector<std::string>>();
         for (const auto &str: arr) {
             pushGenerator(str);
@@ -62,10 +62,10 @@ public:
         writer->pushBack(std::make_unique<TimeGenerator>());
     }
 
-    explicit I3Guesstemator(const YAML::Node &config) {
+    explicit I3Guesstemator(const YAML::Node &_config) : config(_config) {
         timeToSleep = config["updateInterval"].as<int64_t>();
-        initWriter(config);
-        initGenerators(config);
+        initWriter();
+        initGenerators();
     }
 
     void run() const {
