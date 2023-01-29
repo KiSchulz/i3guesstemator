@@ -39,8 +39,8 @@ public:
         std::cout << "]," << std::endl;
     }
 
-    void pushBack(const std::shared_ptr<ElementGenerator> &elementGenerator) override {
-        elementGenerators.push_back(elementGenerator);
+    void pushBack(std::unique_ptr<ElementGenerator> elementGenerator) override {
+        elementGenerators.push_back(std::move(elementGenerator));
     }
 
 private:

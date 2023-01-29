@@ -15,14 +15,14 @@
 
 class Writer {
 protected:
-    std::vector<std::shared_ptr<ElementGenerator>> elementGenerators;
+    std::vector<std::unique_ptr<ElementGenerator>> elementGenerators;
 
 public:
     virtual ~Writer() = default;
 
     virtual void update() = 0;
 
-    virtual void pushBack(const std::shared_ptr<ElementGenerator> &elementGenerator) = 0;
+    virtual void pushBack(std::unique_ptr<ElementGenerator> elementGenerator) = 0;
 };
 
 #endif //I3GUESSTEMATOR_WRITER_H

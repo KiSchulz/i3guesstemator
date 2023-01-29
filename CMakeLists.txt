@@ -12,4 +12,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(include/)
 
-add_executable(i3guesstemator i3guesstemator.cpp include/updatingAverage.h include/battery.h include/brightnessGenerator.h include/configuration.h)
+add_executable(i3guesstemator i3guesstemator.cpp)
+
+target_link_libraries(i3guesstemator yaml-cpp)

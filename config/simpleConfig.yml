@@ -1,0 +1,10 @@
+# Copyright (c) 21.01.23 18:57 Kilian Schulz
+#
+# See file LICENSE for information
+
+# This file is the config file for i3guesstemator.
+
+writer: i3bar
+updateInterval: 1000                    # in ms
+
+generatorList: [ram,cpu,time]

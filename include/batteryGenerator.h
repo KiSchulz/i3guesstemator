@@ -19,6 +19,7 @@
 #include "updatingAverage.h"
 #include "battery.h"
 
+//TODO make avgBufferSize a runtime variable
 template<std::size_t avgBufferSize = 60 * 5>
 class BatteryGenerator : public ElementGenerator {
     UpdatingFileBuffer uevent;
