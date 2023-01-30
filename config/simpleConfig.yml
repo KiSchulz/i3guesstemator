@@ -7,4 +7,4 @@
 writer: i3bar
 updateInterval: 1000                    # in ms
 
-generatorList: [ram,cpu,time]
+generatorList: [battery,ram,cpu,time]
