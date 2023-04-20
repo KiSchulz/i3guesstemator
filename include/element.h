@@ -16,17 +16,12 @@ enum class Alignment {
     left, center, right
 };
 
-struct Color {
-    uint8_t r, g, b;
-};
-
 struct Element {
     std::string text;
-    Color textColor = {0xff, 0xff, 0xff};
-    Color backgroundColor = {0x00, 0x00, 0x00};
+    int indicatorLevel = 0;
     Alignment alignment = Alignment::center;
 
-    explicit Element(std::string text) : text(std::move(text)) {}
+    explicit Element(std::string text, int indicatorLevel = 0) : text(std::move(text)), indicatorLevel(indicatorLevel) {}
 };
 
 #endif //I3GUESSTEMATOR_ELEMENT_H

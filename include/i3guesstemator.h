@@ -22,21 +22,20 @@
 #include "timeGenerator.h"
 
 class I3Guesstemator {
-    const YAML::Node config;
     int64_t timeToSleep;
     std::unique_ptr<Writer> writer;
     bool work = true;
 
-    void initWriter() {
+    void initWriter(const YAML::Node& config) {
         auto value = config["writer"].as<std::string>();
         if (value == "i3bar") {
-            writer = std::make_unique<I3barWriter>();
+            writer = std::make_unique<I3barWriter>(config);
         } else {
             throw std::runtime_error("failed to init the writer");
         }
     }
 
-    void pushGenerator(std::string_view name) const {
+    void pushGenerator(std::string_view name, const YAML::Node& config) const {
         if (name.contains("battery")) {
             writer->pushBack(std::make_unique<BatteryGenerator>(config));
         } else if (name.contains("brightness")) {
@@ -50,22 +49,22 @@ class I3Guesstemator {
         }
     }
 
-    void initGenerators() const {
+    void initGenerators(const YAML::Node& config) const {
         auto arr = config["generatorList"].as<std::vector<std::string>>();
         for (const auto &str: arr) {
-            pushGenerator(str);
+            pushGenerator(str, config);
         }
     }
 
 public:
-    I3Guesstemator() : writer(std::make_unique<I3barWriter>()), timeToSleep(1000) {
+    I3Guesstemator() : timeToSleep(1000), writer(std::make_unique<I3barWriter>()) {
         writer->pushBack(std::make_unique<TimeGenerator>());
     }
 
-    explicit I3Guesstemator(const YAML::Node &_config) : config(_config) {
+    explicit I3Guesstemator(const YAML::Node &config) {
         timeToSleep = config["updateInterval"].as<int64_t>();
-        initWriter();
-        initGenerators();
+        initWriter(config);
+        initGenerators(config);
     }
 
     void run() const {

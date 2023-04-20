@@ -8,3 +8,9 @@ writer: i3bar
 updateInterval: 1000                    # in ms
 
 generatorList: [battery,ram,cpu,time]
+
+i3bar:
+  useColor: true
+  neutralColor: [255, 255, 255]
+  positiveColor: [0, 255, 0]
+  negativeColor: [255, 0, 0]

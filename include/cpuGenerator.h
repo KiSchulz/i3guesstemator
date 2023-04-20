@@ -34,13 +34,14 @@ public:
         }
         uint64_t total = std::accumulate(delta.begin(), delta.end(), 0ul);
 
+        int usage = (int) std::lround((1.0 - ((float) delta[3] / (float) total)) * 100.0);
+
         std::stringstream ss;
-        ss << "\uf2db  " << std::setfill('0') << std::setw(2) << (int) std::lround((1.0 - ((float) delta[3] / (float) total)) * 100.0)
-           << "%";
+        ss << "\uf2db  " << std::setfill('0') << std::setw(2) << usage << "%";
 
         cpu = nCpu;
 
-        return Element{ss.str()};
+        return Element{ss.str(), (usage >= 90 ? -1 : 0)};
     }
 
 private:
