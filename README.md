@@ -1,2 +1,2 @@
-i3guesstemator is a simple status bar generator for i3bar, 
-which tries to approximate how long a laptop has power left until it dies.
+i3guesstemator is a simple status bar generator for i3bar. 
+The primary objective is to improve the accuracy of estimating the remaining battery life of a laptop.
