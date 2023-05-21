@@ -7,7 +7,7 @@ The primary objective is to improve the accuracy of estimating the remaining bat
 
 ## Dependencies
 _________________
-The only dependencie is yaml-cpp.
+The only dependency is yaml-cpp.
 On arch-based systems the following line will install yaml-cpp.
 ```bash
 pacman -S yaml-cpp
