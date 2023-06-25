@@ -8,10 +8,9 @@
 #define I3GUESSTEMATOR_CPUGENERATOR_H
 
 #include <array>
-#include <sstream>
 #include <numeric>
-#include <iomanip>
 #include <cmath>
+#include <format>
 
 #include "elementGenerator.h"
 #include "element.h"
@@ -36,12 +35,9 @@ public:
 
         int usage = (int) std::lround((1.0 - ((float) delta[3] / (float) total)) * 100.0);
 
-        std::stringstream ss;
-        ss << "\uf2db  " << std::setfill('0') << std::setw(2) << usage << "%";
-
         cpu = nCpu;
 
-        return Element{ss.str(), (usage >= 90 ? -1 : 0)};
+        return Element{std::format("\uf2db   {:02}%", usage), (usage >= 90 ? -1 : 0)};
     }
 
 private:

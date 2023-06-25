@@ -11,7 +11,6 @@
 
 class ElementGenerator {
 public:
-    virtual ~ElementGenerator() = default;
     virtual Element getElement() = 0;
 };
 

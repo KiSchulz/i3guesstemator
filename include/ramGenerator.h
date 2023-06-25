@@ -8,8 +8,7 @@
 #define I3GUESSTEMATOR_RAMGENERATOR_H
 
 #include <fstream>
-#include <sstream>
-#include <iomanip>
+#include <format>
 
 #include "helpers.h"
 #include "elementGenerator.h"
@@ -24,12 +23,9 @@ public:
     Element getElement() override {
         Ram ram{memInfo.getContent()};
 
-        std::stringstream ss;
-        ss.precision(4);
-        ss << "\uf00a  " << Ram::KiBToGiB(ram.memTotal - ram.memFree - ram.buffers - ram.cached)
-           << "/" << Ram::KiBToGiB(ram.memTotal) << "GB";
-
-        return Element{ss.str()};
+        return Element(std::format("\uf00a   {:05.2f}/{:05.2f}GiB",
+                                   Ram::KiBToGiB(ram.memTotal - ram.memFree - ram.buffers - ram.cached),
+                                   Ram::KiBToGiB(ram.memTotal)));
     }
 
 private:

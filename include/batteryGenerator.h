@@ -8,10 +8,10 @@
 #define I3GUESSTEMATOR_BATTERYGENERATOR_H
 
 #include <fstream>
-#include <iomanip>
 #include <string_view>
 #include <chrono>
 #include <ctime>
+#include <format>
 
 #include "yaml-cpp/yaml.h"
 #include "helpers.h"
@@ -56,7 +56,11 @@ public:
         ss << battery.capacity << "% ";
 
         //power draw in watts
-        ss << std::setfill('0') << std::setw(2) << (double) battery.status * battery.getPowerDraw() << "W ";
+        if (battery.status == -1) {
+            ss << "-";
+        }
+
+        ss << std::format("{:05.2f} W ",  battery.getPowerDraw());
 
         //estimated time of death
         //calculating the time
@@ -64,14 +68,11 @@ public:
         tm tm = *std::localtime(&t);
         tm.tm_sec += (int) timeAvg.getAverage();
         std::mktime(&tm);
-        ss << "ETD="
-           << std::put_time(&tm, "%H:%M") << " ";
+        ss << "ETD=" << std::put_time(&tm, "%H:%M") << " ";
 
         //time left
         std::chrono::hh_mm_ss hhMmSs{std::chrono::seconds{timeAvg.getAverage()}};
-        ss << "T="
-           << std::setfill('0') << std::setw(2) << hhMmSs.hours().count() << ":"
-           << std::setfill('0') << std::setw(2) << hhMmSs.minutes().count() << "h";
+        ss << std::format("T={:02}:{:02}h", hhMmSs.hours().count(), hhMmSs.minutes().count());
 
         return Element{ss.str()};
     }

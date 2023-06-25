@@ -10,6 +10,7 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
+#include <format>
 
 #include "elementGenerator.h"
 #include "updatingFileBuffer.h"
@@ -38,10 +39,7 @@ public:
     Element getElement() override {
         uint64_t currentBrightness = std::strtoul(brightness.getContent().begin(), nullptr, 10);
 
-        std::stringstream ss;
-        ss << "\uf0eb  " << currentBrightness * 100 / maxBrightness << "%";
-
-        return Element(ss.str());
+        return Element(std::format("\uf0eb   {:03}%", currentBrightness * 100 / maxBrightness));
     }
 };
 
