@@ -8,9 +8,30 @@
 #define I3GUESSTEMATOR_ELEMENTGENERATOR_H
 
 #include "element.h"
+#include "yaml-cpp/yaml.h"
 
 class ElementGenerator {
+protected:
+    const std::string generatorName;
+    const YAML::Node generatorConfig;
+    std::string prefix;
 public:
+    ElementGenerator(std::string_view _generatorName, const YAML::Node &_config) : generatorName(_generatorName),
+                                                                                   generatorConfig(
+                                                                                           _config[_generatorName]) {
+        if (!generatorConfig.IsDefined()) {
+            return;
+        }
+        const YAML::Node &prefixNode = generatorConfig["prefix"];
+        if (!prefixNode.IsDefined()) {
+            prefix = "";
+            return;
+        }
+        prefix = prefixNode.as<std::string>();
+    }
+
+    virtual ~ElementGenerator() = default;
+
     virtual Element getElement() = 0;
 };
 

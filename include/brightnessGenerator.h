@@ -34,12 +34,18 @@ class BrightnessGenerator : public ElementGenerator {
     }
 
 public:
-    BrightnessGenerator() : maxBrightness(getMaxBrightness()), brightness(getPathToBacklightDir() / "brightness") {}
+    explicit BrightnessGenerator(const YAML::Node &config) : ElementGenerator("brightness", config),
+                                                    maxBrightness(getMaxBrightness()),
+                                                    brightness(getPathToBacklightDir() / "brightness") {}
 
     Element getElement() override {
         uint64_t currentBrightness = std::strtoul(brightness.getContent().begin(), nullptr, 10);
 
-        return Element(std::format("\uf0eb   {:03}%", currentBrightness * 100 / maxBrightness));
+        std::stringstream ss;
+        ss << prefix;
+        ss << std::format("{:03}%", currentBrightness * 100 / maxBrightness);
+
+        return Element(ss.str());
     }
 };
 

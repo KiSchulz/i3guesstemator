@@ -15,9 +15,14 @@
 
 class TimeGenerator : public ElementGenerator {
 public:
+    explicit TimeGenerator(const YAML::Node &config) : ElementGenerator("time", config) {}
+
     Element getElement() override {
-        return Element{std::format("{:%d-%m-%Y %H:%M:%S}", std::chrono::floor<std::chrono::seconds>(
-                std::chrono::current_zone()->to_local(std::chrono::system_clock::now())))};
+        std::stringstream ss;
+        ss << prefix;
+        ss << std::format("{:%d-%m-%Y %H:%M:%S}", std::chrono::floor<std::chrono::seconds>(
+                std::chrono::current_zone()->to_local(std::chrono::system_clock::now())));
+        return Element{ss.str()};
     }
 };
 

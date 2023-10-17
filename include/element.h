@@ -21,7 +21,7 @@ struct Element {
     int indicatorLevel = 0;
     Alignment alignment = Alignment::center;
 
-    explicit Element(std::string text, int indicatorLevel = 0) : text(std::move(text)), indicatorLevel(indicatorLevel) {}
+    explicit Element(std::string _text, int _indicatorLevel = 0) : text(std::move(_text)), indicatorLevel(_indicatorLevel) {}
 };
 
 #endif //I3GUESSTEMATOR_ELEMENT_H

@@ -25,10 +25,9 @@ class BatteryGenerator : public ElementGenerator {
     UpdatingAverage<uint64_t> timeAvg;
     Battery battery{};
 
-    static UpdatingAverage<uint64_t> initTimeAvg(const YAML::Node &config) {
-        const YAML::Node &batteryNode = config["battery"];
-        if (batteryNode.IsDefined()) {
-            const YAML::Node &numIntervals = batteryNode["numIntervals"];
+    UpdatingAverage<uint64_t> initTimeAvg() {
+        if (generatorConfig.IsDefined()) {
+            const YAML::Node &numIntervals = generatorConfig["numIntervals"];
             if (numIntervals.IsDefined()) {
                 return UpdatingAverage<uint64_t>{numIntervals.as<uint64_t>()};
             }
@@ -37,8 +36,9 @@ class BatteryGenerator : public ElementGenerator {
     }
 
 public:
-    explicit BatteryGenerator(const YAML::Node &config) : uevent("/sys/class/power_supply/BAT0/uevent"),
-                                                          timeAvg(initTimeAvg(config)) {}
+    explicit BatteryGenerator(const YAML::Node &config) : ElementGenerator("battery", config),
+                                                          uevent("/sys/class/power_supply/BAT0/uevent"),
+                                                          timeAvg(initTimeAvg()) {}
 
     Element getElement() override {
         const Battery nBattery = Battery{uevent.getContent()};
@@ -50,7 +50,7 @@ public:
 
         std::stringstream ss;
         ss.precision(3);
-        ss << "\uf242    ";
+        ss << prefix;
 
         //battery capacity in percent
         ss << battery.capacity << "% ";
@@ -60,7 +60,7 @@ public:
             ss << "-";
         }
 
-        ss << std::format("{:05.2f} W ",  battery.getPowerDraw());
+        ss << std::format("{:05.2f} W ", battery.getPowerDraw());
 
         //estimated time of death
         //calculating the time

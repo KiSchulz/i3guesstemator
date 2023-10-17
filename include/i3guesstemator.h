@@ -39,13 +39,13 @@ class I3Guesstemator {
         if (name.contains("battery")) {
             writer->pushBack(std::make_unique<BatteryGenerator>(config));
         } else if (name.contains("brightness")) {
-            writer->pushBack(std::make_unique<BrightnessGenerator>());
+            writer->pushBack(std::make_unique<BrightnessGenerator>(config));
         } else if (name.contains("cpu")) {
-            writer->pushBack(std::make_unique<CpuGenerator>());
+            writer->pushBack(std::make_unique<CpuGenerator>(config));
         } else if (name.contains("ram")) {
-            writer->pushBack(std::make_unique<RamGenerator>());
+            writer->pushBack(std::make_unique<RamGenerator>(config));
         } else if (name.contains("time")) {
-            writer->pushBack(std::make_unique<TimeGenerator>());
+            writer->pushBack(std::make_unique<TimeGenerator>(config));
         }
     }
 
@@ -58,7 +58,7 @@ class I3Guesstemator {
 
 public:
     I3Guesstemator() : timeToSleep(1000), writer(std::make_unique<I3barWriter>()) {
-        writer->pushBack(std::make_unique<TimeGenerator>());
+        writer->pushBack(std::make_unique<TimeGenerator>(YAML::Node()));
     }
 
     explicit I3Guesstemator(const YAML::Node &config) {

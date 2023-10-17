@@ -21,7 +21,8 @@ class CpuGenerator : public ElementGenerator {
     std::array<uint64_t, 10> cpu;
 
 public:
-    CpuGenerator() : stat("/proc/stat"), cpu(getCpuTimes()) {
+    explicit CpuGenerator(const YAML::Node &config) : ElementGenerator("cpu", config), stat("/proc/stat"),
+                                                      cpu(getCpuTimes()) {
     }
 
     Element getElement() override {
@@ -37,7 +38,11 @@ public:
 
         cpu = nCpu;
 
-        return Element{std::format("\uf2db   {:02}%", usage), (usage >= 90 ? -1 : 0)};
+        std::stringstream ss;
+        ss << prefix;
+        ss << std::format("{:02}%", usage);
+
+        return Element{ss.str(), (usage >= 90 ? -1 : 0)};
     }
 
 private:

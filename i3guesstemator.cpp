@@ -10,8 +10,6 @@
 #include "i3guesstemator.h"
 
 int main(int argc, char *argv[]) {
-    //TODO: add a reader for inputs from the bar
-
     std::unique_ptr<I3Guesstemator> i3Guesstemator;
 
     if (argc == 2) {

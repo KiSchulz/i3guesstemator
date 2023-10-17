@@ -18,7 +18,7 @@ class UpdatingFileBuffer {
     std::string content;
 
 public:
-    explicit UpdatingFileBuffer(const std::filesystem::path& path) : path(path) {
+    explicit UpdatingFileBuffer(const std::filesystem::path& _path) : path(_path) {
     }
 
     [[nodiscard]] std::string_view getContent() {

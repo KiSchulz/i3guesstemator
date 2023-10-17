@@ -18,14 +18,17 @@
 class RamGenerator : public ElementGenerator {
     UpdatingFileBuffer memInfo;
 public:
-    RamGenerator() : memInfo("/proc/meminfo") {}
+    explicit RamGenerator(const YAML::Node &config) : ElementGenerator("ram", config), memInfo("/proc/meminfo") {}
 
     Element getElement() override {
         Ram ram{memInfo.getContent()};
+        std::stringstream ss;
+        ss << prefix;
+        ss << std::format("{:05.2f}/{:05.2f}GiB",
+                          Ram::KiBToGiB(ram.memTotal - ram.memFree - ram.buffers - ram.cached),
+                          Ram::KiBToGiB(ram.memTotal));
 
-        return Element(std::format("\uf00a   {:05.2f}/{:05.2f}GiB",
-                                   Ram::KiBToGiB(ram.memTotal - ram.memFree - ram.buffers - ram.cached),
-                                   Ram::KiBToGiB(ram.memTotal)));
+        return Element(ss.str());
     }
 
 private:
