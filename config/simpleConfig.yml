@@ -7,7 +7,23 @@
 writer: i3bar
 updateInterval: 1000                    # in ms
 
-generatorList: [battery,ram,cpu,time]
+generatorList: [ram,cpu,brightness,time]
+
+#battery:
+#  prefix: "\uf242    "
+#  numIntervals: 300
+
+ram:
+  prefix: "\uf00a   "
+
+cpu:
+  prefix: "\uf2db   "
+
+brightness:
+  prefix: "\uf0eb   "
+
+time:
+  prefix: "\uf017   "
 
 i3bar:
   useColor: true
