@@ -36,7 +36,7 @@ class BatteryGenerator : public ElementGenerator {
     }
 
 public:
-    explicit BatteryGenerator(const YAML::Node &config) : ElementGenerator("battery", config),
+    explicit BatteryGenerator(std::string_view name, const YAML::Node &config) : ElementGenerator(name, config),
                                                           uevent("/sys/class/power_supply/BAT0/uevent"),
                                                           timeAvg(initTimeAvg()) {}
 

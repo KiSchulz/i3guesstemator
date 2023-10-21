@@ -18,7 +18,7 @@
 class RamGenerator : public ElementGenerator {
     UpdatingFileBuffer memInfo;
 public:
-    explicit RamGenerator(const YAML::Node &config) : ElementGenerator("ram", config), memInfo("/proc/meminfo") {}
+    explicit RamGenerator(std::string_view name, const YAML::Node &config) : ElementGenerator(name, config), memInfo("/proc/meminfo") {}
 
     Element getElement() override {
         Ram ram{memInfo.getContent()};

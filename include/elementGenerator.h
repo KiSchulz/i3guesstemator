@@ -30,6 +30,12 @@ public:
         prefix = prefixNode.as<std::string>();
     }
 
+
+    template<typename T>
+    static std::unique_ptr<ElementGenerator> createElement(std::string_view name, const YAML::Node &config) {
+        return std::make_unique<T>(name, config);
+    }
+
     virtual ~ElementGenerator() = default;
 
     virtual Element getElement() = 0;

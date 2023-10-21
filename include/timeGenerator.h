@@ -15,7 +15,7 @@
 
 class TimeGenerator : public ElementGenerator {
 public:
-    explicit TimeGenerator(const YAML::Node &config) : ElementGenerator("time", config) {}
+    explicit TimeGenerator(std::string_view name, const YAML::Node &config) : ElementGenerator(name, config) {}
 
     Element getElement() override {
         std::stringstream ss;

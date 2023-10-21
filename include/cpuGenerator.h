@@ -21,7 +21,7 @@ class CpuGenerator : public ElementGenerator {
     std::array<uint64_t, 10> cpu;
 
 public:
-    explicit CpuGenerator(const YAML::Node &config) : ElementGenerator("cpu", config), stat("/proc/stat"),
+    explicit CpuGenerator(std::string_view name, const YAML::Node &config) : ElementGenerator(name, config), stat("/proc/stat"),
                                                       cpu(getCpuTimes()) {
     }
 

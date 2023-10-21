@@ -34,7 +34,7 @@ class BrightnessGenerator : public ElementGenerator {
     }
 
 public:
-    explicit BrightnessGenerator(const YAML::Node &config) : ElementGenerator("brightness", config),
+    explicit BrightnessGenerator(std::string_view name, const YAML::Node &config) : ElementGenerator(name, config),
                                                     maxBrightness(getMaxBrightness()),
                                                     brightness(getPathToBacklightDir() / "brightness") {}
 
