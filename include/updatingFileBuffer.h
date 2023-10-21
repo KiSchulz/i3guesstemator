@@ -11,14 +11,16 @@
 #include <fstream>
 #include <streambuf>
 #include <filesystem>
+#include <utility>
 
 class UpdatingFileBuffer {
-    const std::string path;
+    const std::filesystem::path path;
     std::ifstream fileStream;
     std::string content;
 
 public:
-    explicit UpdatingFileBuffer(const std::filesystem::path& _path) : path(_path) {
+    explicit UpdatingFileBuffer(std::filesystem::path  _path) : path(std::move(_path)) {
+        updateContent();
     }
 
     [[nodiscard]] std::string_view getContent() {
@@ -33,6 +35,12 @@ private:
             fileStream.seekg(0, std::ios::beg);
         } else {
             fileStream.open(path);
+        }
+
+        if (fileStream.fail()) {
+            std::stringstream ss;
+            ss << "Failed to read from " << path << "!";
+            throw std::runtime_error(ss.str());
         }
 
         content.assign(std::istreambuf_iterator<char>(fileStream), std::istreambuf_iterator<char>());
