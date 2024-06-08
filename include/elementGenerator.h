@@ -12,33 +12,32 @@
 
 class ElementGenerator {
 protected:
-    const std::string generatorName;
-    const YAML::Node generatorConfig;
-    std::string prefix;
+  const std::string generatorName;
+  const YAML::Node generatorConfig;
+  std::string prefix;
+
 public:
-    ElementGenerator(std::string_view _generatorName, const YAML::Node &_config) : generatorName(_generatorName),
-                                                                                   generatorConfig(
-                                                                                           _config[_generatorName]) {
-        if (!generatorConfig.IsDefined()) {
-            return;
-        }
-        const YAML::Node &prefixNode = generatorConfig["prefix"];
-        if (!prefixNode.IsDefined()) {
-            prefix = "";
-            return;
-        }
-        prefix = prefixNode.as<std::string>();
+  ElementGenerator(std::string_view _generatorName, const YAML::Node &_config)
+      : generatorName(_generatorName), generatorConfig(_config[_generatorName]) {
+    if (!generatorConfig.IsDefined()) {
+      return;
     }
-
-
-    template<typename T>
-    static std::unique_ptr<ElementGenerator> createElement(std::string_view name, const YAML::Node &config) {
-        return std::make_unique<T>(name, config);
+    const YAML::Node &prefixNode = generatorConfig["prefix"];
+    if (!prefixNode.IsDefined()) {
+      prefix = "";
+      return;
     }
+    prefix = prefixNode.as<std::string>();
+  }
 
-    virtual ~ElementGenerator() = default;
+  template <typename T>
+  static std::unique_ptr<ElementGenerator> createElement(std::string_view name, const YAML::Node &config) {
+    return std::make_unique<T>(name, config);
+  }
 
-    virtual Element getElement() = 0;
+  virtual ~ElementGenerator() = default;
+
+  virtual Element getElement() = 0;
 };
 
-#endif //I3GUESSTEMATOR_ELEMENTGENERATOR_H
+#endif // I3GUESSTEMATOR_ELEMENTGENERATOR_H

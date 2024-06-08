@@ -6,32 +6,32 @@
 
 #include <memory>
 
-#include "yaml-cpp/yaml.h"
 #include "i3guesstemator.h"
+#include "yaml-cpp/yaml.h"
 
 int main(int argc, char *argv[]) {
-    std::unique_ptr<I3Guesstemator> i3Guesstemator;
+  std::unique_ptr<I3Guesstemator> i3Guesstemator;
 
-    if (argc == 2) {
-        YAML::Node config;
-
-        try {
-            config = YAML::LoadFile(std::filesystem::path(argv[1]));
-        } catch (const std::runtime_error &error) {
-            std::cerr << error.what() << "\n";
-            return -1;
-        }
-
-        i3Guesstemator = std::make_unique<I3Guesstemator>(config);
-    } else {
-        i3Guesstemator = std::make_unique<I3Guesstemator>();
-    }
+  if (argc == 2) {
+    YAML::Node config;
 
     try {
-        i3Guesstemator->run();
+      config = YAML::LoadFile(std::filesystem::path(argv[1]));
     } catch (const std::runtime_error &error) {
-        std::cerr << error.what() << "\n";
+      std::cerr << error.what() << "\n";
+      return -1;
     }
 
-    return 0;
+    i3Guesstemator = std::make_unique<I3Guesstemator>(config);
+  } else {
+    i3Guesstemator = std::make_unique<I3Guesstemator>();
+  }
+
+  try {
+    i3Guesstemator->run();
+  } catch (const std::runtime_error &error) {
+    std::cerr << error.what() << "\n";
+  }
+
+  return 0;
 }

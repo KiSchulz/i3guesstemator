@@ -12,16 +12,15 @@
 #include <cstdint>
 #include <utility>
 
-enum class Alignment {
-    left, center, right
-};
+enum class Alignment { left, center, right };
 
 struct Element {
-    std::string text;
-    int indicatorLevel = 0;
-    Alignment alignment = Alignment::center;
+  std::string text;
+  int indicatorLevel = 0;
+  Alignment alignment = Alignment::center;
 
-    explicit Element(std::string _text, int _indicatorLevel = 0) : text(std::move(_text)), indicatorLevel(_indicatorLevel) {}
+  explicit Element(std::string _text, int _indicatorLevel = 0)
+      : text(std::move(_text)), indicatorLevel(_indicatorLevel) {}
 };
 
-#endif //I3GUESSTEMATOR_ELEMENT_H
+#endif // I3GUESSTEMATOR_ELEMENT_H
