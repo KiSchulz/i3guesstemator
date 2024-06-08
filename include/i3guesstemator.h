@@ -18,6 +18,7 @@
 #include "i3barWriter.h"
 #include "ramGenerator.h"
 #include "timeGenerator.h"
+#include "diskGenerator.h"
 #include "writer.h"
 #include "yaml-cpp/yaml.h"
 
@@ -33,6 +34,7 @@ class I3Guesstemator {
           {"cpu", &ElementGenerator::createElement<CpuGenerator>},
           {"ram", &ElementGenerator::createElement<RamGenerator>},
           {"time", &ElementGenerator::createElement<TimeGenerator>},
+          {"disk", &ElementGenerator::createElement<DiskGenerator>},
       };
 
   void initWriter(const YAML::Node &config) {

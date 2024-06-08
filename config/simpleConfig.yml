@@ -7,7 +7,11 @@
 writer: i3bar
 updateInterval: 1000                    # in ms
 
-generatorList: [ ram,cpu,time ]
+generatorList: [ disk,ram,cpu,time ]
+
+disk:
+  prefix: "\uf1c0   "
+  paths: ["/", "/home"]
 
 battery:
   prefix: "\uf242   "
