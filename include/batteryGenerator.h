@@ -25,6 +25,15 @@ class BatteryGenerator : public ElementGenerator {
   UpdatingAverage<uint64_t> timeAvg;
   Battery battery{};
 
+  UpdatingFileBuffer initUpdatingFileBuffer() {
+      const YAML::Node &pathNode = generatorConfig["path"];
+      if(pathNode.IsDefined()){
+        return UpdatingFileBuffer{pathNode.as<std::string>()};
+      }
+
+      return UpdatingFileBuffer{"/sys/class/power_supply/BAT0/uevent"};
+  }
+
   UpdatingAverage<uint64_t> initTimeAvg() {
     if (generatorConfig.IsDefined()) {
       const YAML::Node &numIntervals = generatorConfig["numIntervals"];
@@ -37,7 +46,7 @@ class BatteryGenerator : public ElementGenerator {
 
 public:
   explicit BatteryGenerator(std::string_view name, const YAML::Node &config)
-      : ElementGenerator(name, config), uevent("/sys/class/power_supply/BAT0/uevent"), timeAvg(initTimeAvg()) {}
+      : ElementGenerator(name, config), uevent(initUpdatingFileBuffer()), timeAvg(initTimeAvg()) {}
 
   Element getElement() override {
     const Battery nBattery = Battery{uevent.getContent()};
@@ -73,7 +82,7 @@ public:
     std::chrono::hh_mm_ss hhMmSs{std::chrono::seconds{timeAvg.getAverage()}};
     ss << std::format("T={:02}:{:02}h", hhMmSs.hours().count(), hhMmSs.minutes().count());
 
-    return Element{ss.str()};
+    return Element{ss.str(), battery.capacity < 20 ? -1 : 0};
   }
 };
 

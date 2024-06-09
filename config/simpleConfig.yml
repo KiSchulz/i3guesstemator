@@ -15,6 +15,7 @@ disk:
 
 battery:
   prefix: "\uf242   "
+  path: "/sys/class/power_supply/BAT0/uevent"
   numIntervals: 300
 
 ram:
