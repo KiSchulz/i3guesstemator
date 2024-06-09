@@ -24,12 +24,14 @@ public:
 
   Element getElement() override {
     Ram ram{memInfo.getContent()};
+    double usedMemory = Ram::KiBToGiB(ram.memTotal - ram.memFree - ram.buffers - ram.cached);
+    double totalMemory = Ram::KiBToGiB(ram.memTotal);
+
     std::stringstream ss;
     ss << prefix;
-    ss << std::format("{:05.2f}/{:05.2f}GiB", Ram::KiBToGiB(ram.memTotal - ram.memFree - ram.buffers - ram.cached),
-                      Ram::KiBToGiB(ram.memTotal));
+    ss << std::format("{:05.2f}/{:05.2f}GiB", usedMemory, totalMemory);
 
-    return Element(ss.str());
+    return Element(ss.str(), usedMemory / totalMemory > 0.8 ? -1 : 0);
   }
 
 private:
