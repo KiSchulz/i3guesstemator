@@ -35,8 +35,8 @@ class DiskGenerator : public ElementGenerator {
   void updateSubElements() {
     for (auto &[path, stats] : subElVec) {
       if (statvfs(path.c_str(), &stats)) {
-        throw std::runtime_error(
-            std::format("Failed to call statvfs() for path: {} errno({}): {}", path, errno, strerror(errno)));
+        throw std::runtime_error("Failed to call statvfs() for path:" + path + "errno(" + std::to_string(errno) +
+                                 "): " + strerror(errno));
       }
     }
   }
@@ -49,7 +49,7 @@ class DiskGenerator : public ElementGenerator {
     double usage = ((total - free) / total) * 100.f;
 
     ss << prefix;
-    ss << std::format("{}: {:05.2f}% (free: {:03.0f}GiB)", path, usage, free / (1 << 30));
+    ss << path << std::format(": {:05.2f}% (free: {:03.0f}GiB)", usage, free / (1 << 30));
 
     highDiskUsage |= usage >= 80;
   }
@@ -69,8 +69,8 @@ public:
 
     for (auto iter = ++subElVec.begin(); iter != subElVec.end(); iter++) {
       // deduplicate filesystems with the same fs-id, useful if a filesystem might not be mounted all the time
-      if (std::find_if(subElVec.begin(), iter, [iter](auto a) { return get<1>(a).f_fsid == get<1>(*iter).f_fsid; }) !=
-          iter) {
+      if (std::find_if(subElVec.begin(), iter,
+                       [iter](auto a) { return std::get<1>(a).f_fsid == std::get<1>(*iter).f_fsid; }) != iter) {
         continue;
       }
       ss << " ";
