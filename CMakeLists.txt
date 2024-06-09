@@ -7,7 +7,7 @@ if (NOT CMAKE_BUILD_TYPE)
 endif ()
 
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -fno-omit-frame-pointer -Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wpedantic")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -march=native -mtune=native")
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(include/)

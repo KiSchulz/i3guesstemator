@@ -80,7 +80,9 @@ public:
   void run() const {
     while (work) {
       writer->update();
-      std::this_thread::sleep_for(std::chrono::milliseconds(timeToSleep));
+      if (timeToSleep > 0) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(timeToSleep));
+      }
     }
   }
 };
