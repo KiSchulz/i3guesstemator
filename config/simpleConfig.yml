@@ -5,7 +5,7 @@
 # This file is the config file for i3guesstemator.
 
 writer: i3bar
-updateInterval: 1000                    # in ms
+updateInterval: 5000                    # in ms
 
 generatorList: [ disk,ram,cpu,time ]
 
@@ -16,7 +16,7 @@ disk:
 battery:
   prefix: "\uf242   "
   path: "/sys/class/power_supply/BAT0/uevent"
-  numIntervals: 300
+  numIntervals: 60
 
 ram:
   prefix: "\uf00a   "
