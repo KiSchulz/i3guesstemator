@@ -50,7 +50,7 @@ public:
 
   Element getElement() override {
     const Battery nBattery = Battery{uevent.getContent()};
-    if (nBattery.status != battery.status) {
+    if (nBattery.status != battery.status || std::abs(battery.getPowerDraw()) <= 0.1) {
       timeAvg = UpdatingAverage<uint64_t>{timeAvg.getNumEntries()};
     }
     battery = nBattery;
@@ -68,7 +68,7 @@ public:
       ss << "-";
     }
 
-    ss << std::format("{:05.2f} W ", battery.getPowerDraw());
+    ss << std::format("{:05.2f}W ", battery.getPowerDraw());
 
     // estimated time of death
     // calculating the time
